@@ -9,7 +9,7 @@ public:
 	stack();
 	~stack();
 	stack(stack<T> const&);
-	stack<T>& operator=(stack<T> const&);
+	stack& operator=(stack<T> const&);
 	size_t count() const;
 	size_t array_size() const;
 	T * operator[](unsigned int index) const;
@@ -39,14 +39,14 @@ stack<T>::~stack()
 	count_ = 0;
 }
 template <typename T>
-stack<T>::stack<T>(stack<T> const& other)
+stack<T>::stack(stack<T> const& other)
 {
 	array_size_ = other.array_size_;
 	count_ = other.count_;	
 	std::copy(other.array_, other.array_ + count_, array_);
 }
 template <typename T>
-stack<T>& stack<T>::operator=(stack<T> & other)
+stack& stack<T>::operator=(stack<T> & other)
 {
 	if (&other != this)
 		swap(other);
