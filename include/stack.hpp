@@ -12,10 +12,11 @@ public:
 	stack& operator=(stack<T> const&);
 	size_t count() const;
 	size_t array_size() const;
-	void push(T const &);
+	void push(T const&);
 	T pop();
 	T last()const;
 	void print()const;
+	friend ostream& operator << (ostream&stream, const stack<T>&);
 	void swap(stack<T>&);
 private:
 	T * array_;
@@ -24,12 +25,7 @@ private:
 };
 
 template <typename T>
-stack<T>::stack()
-{
-	array_ = nullptr;
-	array_size_ = 0;
-	count_ = 0;
-}
+stack<T>::stack() : array_{ nullptr }, array_size_{ 0 }, count_{ 0 } {}
 template <typename T>
 stack<T>::~stack()
 {
@@ -43,7 +39,7 @@ stack<T>::stack(stack<T> const& other)
 	std::copy(other.array_, other.array_ + count_, array_);
 }
 template <typename T>
-stack<T>& stack<T>::operator=(stack<T> const & other)
+auto stack<T>::operator=(stack<T> const & other) -> stack&
 {
 	if (&other != this)
 		stack(other).swap(*this);
@@ -100,16 +96,21 @@ T stack<T>::last()const
 	else return array_[count_ - 1];
 }
 template <typename T>
-void stack<T>::print()const
+void stack<T>::print(std::ostream&stream)const
 {
 	for (unsigned int i = 0; i < count_; ++i)
-		std::cout << array_[i] << " ";
-	std::cout << std::endl;
+		std::stream << array_[i] << " ";
+	std::stream << std::endl;
+}
+template <typename T>
+std::ostream& operator << (std::ostream&stream, const stack<T>&stack_)
+{
+	return stack_.print(stream)
 }
 template <typename T>
 void stack<T>::swap(stack<T>& other)
 {
-	std::swap((*this).array_, other.array_);
-	std::swap((*this).array_size_, other.array_size_);
-	std::swap((*this).count_, other.count_);
+	std::swap(array_, other.array_);
+	std::swap(array_size_, other.array_size_);
+	std::swap(count_, other.count_);
 }
