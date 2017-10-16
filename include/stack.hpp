@@ -7,6 +7,9 @@ class stack
 {
 public:
 	stack();
+	~stack();
+	stack(stack<T> const&);
+	stack<T>& operator=(stack<T> const&);
 	size_t count() const;
 	size_t array_size() const;
 	T * operator[](unsigned int index) const;
@@ -14,7 +17,7 @@ public:
 	T pop();
 	T last()const;
 	void print();
-	void swap();
+	void swap(stack<T>&);
 private:
 	T * array_;
 	size_t array_size_;
@@ -27,6 +30,27 @@ stack<T>::stack()
 	array_ = nullptr;
 	array_size_ = 0;
 	count_ = 0;
+}
+template <typename T>
+stack<T>::~stack()
+{
+	delete[] array_;
+	array_size_ = 0;
+	count_ = 0;
+}
+template <typename T>
+stack(stack<T> const& other)
+{
+	array_ = other.array_;
+	array_size_ = other.array_size_;
+	count_ = other.count_;	
+}
+template <typename T>
+stack<T>& operator=(stack<T> & other)
+{
+	if (&other != this)
+		swap(other);
+	return *this;
 }
 template <typename T>
 size_t stack<T>::array_size() const
@@ -43,7 +67,7 @@ T * stack<T>::operator[](unsigned int index) const
 {
 	return array_[index];
 }
-template <typename T>
+template <typename T>tdext::checked_array_iterator<T*>(n
 void stack<T>::push(T const & value)
 {
 	if (array_size_ == 0)
@@ -54,7 +78,10 @@ void stack<T>::push(T const & value)
 	else if (array_size_ == count_)
 	{
 		array_size_ *= 2;
-		swap();
+		T * new_array = new T[array_size_]();
+		std::copy(array_, array_ + count_, new_array);
+		delete[] array_;
+		array_ = new_array;
 	}
 	array_[count_++] = value;
 }
@@ -68,7 +95,9 @@ T stack<T>::pop()
 		if (count_ - 1 == array_size_ / 2)
 			array_size_ /= 2;
 		T value = array_[--count_];
-		swap();
+		std::copy(array_, array_ + count_, new_array);
+		delete[] array_;
+		array_ = new_array;
 		return value;
 	}
 }
@@ -87,10 +116,9 @@ void stack<T>::print()
 	std::cout << std::endl;
 }
 template <typename T>
-void stack<T>::swap()
+void stack<T>::swap(stack<T>& other)
 {
-	T * new_array = new T[array_size_]();
-	std::copy(array_, array_ + count_, new_array);
-	delete[] array_;
-	array_ = new_array;
+	std::swap((*this).array_, other.array_);
+	std::swap((*this).array_size_, other.array_size_);
+	std::swap((*this).count_, other.count_);
 }
