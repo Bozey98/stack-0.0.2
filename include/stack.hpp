@@ -12,11 +12,10 @@ public:
 	stack& operator=(stack<T> const&);
 	size_t count() const;
 	size_t array_size() const;
-	T * operator[](unsigned int index) const;
 	void push(T const &);
 	T pop();
 	T last()const;
-	void print();
+	void print()const;
 	void swap(stack<T>&);
 private:
 	T * array_;
@@ -35,8 +34,6 @@ template <typename T>
 stack<T>::~stack()
 {
 	delete[] array_;
-	array_size_ = 0;
-	count_ = 0;
 }
 template <typename T>
 stack<T>::stack(stack<T> const& other)
@@ -63,11 +60,6 @@ size_t stack<T>::count() const
 	return count_;
 }
 template <typename T>
-T * stack<T>::operator[](unsigned int index) const
-{
-	return array_[index];
-}
-template <typename T>
 void stack<T>::push(T const & value)
 {
 	if (array_size_ == 0)
@@ -92,8 +84,6 @@ T stack<T>::pop()
 		throw std::logic_error("Stack is empty");
 	else
 	{
-		if (count_ - 1 == array_size_ / 2)
-			array_size_ /= 2;
 		T * new_array = new T[array_size_]();
 		T value = array_[--count_];
 		std::copy(array_, array_ + count_, new_array);
@@ -110,7 +100,7 @@ T stack<T>::last()const
 	else return array_[count_ - 1];
 }
 template <typename T>
-void stack<T>::print()
+void stack<T>::print()const
 {
 	for (unsigned int i = 0; i < count_; ++i)
 		std::cout << array_[i] << " ";
