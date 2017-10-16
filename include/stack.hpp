@@ -41,7 +41,6 @@ stack<T>::~stack()
 template <typename T>
 stack<T>(stack<T> const& other)
 {
-	array_ = new T[array_size_];
 	array_size_ = other.array_size_;
 	count_ = other.count_;	
 	std::copy(other.array_, other.array_ + count_, array_);
