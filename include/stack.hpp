@@ -94,6 +94,7 @@ T stack<T>::pop()
 	{
 		if (count_ - 1 == array_size_ / 2)
 			array_size_ /= 2;
+		T * new_array = new T[array_size_]();
 		T value = array_[--count_];
 		std::copy(array_, array_ + count_, new_array);
 		delete[] array_;
