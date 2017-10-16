@@ -39,11 +39,12 @@ stack<T>::~stack()
 	count_ = 0;
 }
 template <typename T>
-stack(stack<T> const& other)
+stack<T>(stack<T> const& other)
 {
-	array_ = other.array_;
+	array_ = new T[array_size_];
 	array_size_ = other.array_size_;
 	count_ = other.count_;	
+	std::copy(other.array_, other.array_ + count_, array_);
 }
 template <typename T>
 stack<T>& operator=(stack<T> & other)
@@ -67,7 +68,7 @@ T * stack<T>::operator[](unsigned int index) const
 {
 	return array_[index];
 }
-template <typename T>tdext::checked_array_iterator<T*>(n
+template <typename T>
 void stack<T>::push(T const & value)
 {
 	if (array_size_ == 0)
