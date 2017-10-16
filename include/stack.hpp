@@ -15,8 +15,8 @@ public:
 	void push(T const&);
 	T pop();
 	T last()const;
-	void print()const;
-	friend ostream& operator << (std::ostream&stream, const stack<T>&);
+	void print(std::ostream&stream)const;
+	friend std::ostream&operator << (std::ostream&stream, const stack<T>&);
 	void swap(stack<T>&);
 private:
 	T * array_;
