@@ -46,10 +46,10 @@ stack<T>::stack(stack<T> const& other)
 	std::copy(other.array_, other.array_ + count_, array_);
 }
 template <typename T>
-stack<T>& stack<T>::operator=(stack<T> & other)
+stack<T>& stack<T>::operator=(stack<T> const & other)
 {
 	if (&other != this)
-		swap(other);
+		stack(other).swap(*this);
 	return *this;
 }
 template <typename T>
